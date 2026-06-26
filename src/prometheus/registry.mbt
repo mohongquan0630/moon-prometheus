@@ -5,17 +5,25 @@ enum Metric {
 }
 
 pub struct Registry {
-  metrics: Array[Metric]
+  metrics: Map[String, Metric]
 }
 
 pub fn Registry::new() -> Registry {
-  { metrics: [] }
+  { metrics: Map::new() }
 }
 
 pub fn register_counter(self: Registry, c: Counter) -> Unit {
-  self.metrics.push(MCounter(c))
+  self.metrics.set(c.name, MCounter(c))
 }
 
 pub fn register_gauge(self: Registry, g: Gauge) -> Unit {
-  self.metrics.push(MGauge(g))
+  self.metrics.set(g.name, MGauge(g))
+}
+
+pub fn get_metrics(self: Registry) -> Array[Metric] {
+  let arr = []
+  for _, v in self.metrics {
+    arr.push(v)
+  }
+  arr
 }
