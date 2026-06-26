@@ -12,3 +12,18 @@ pub fn Histogram::new(name: String, help: String, ~buckets: Array[Double] = [0.1
   let counts = Array::make(buckets.length() + 1, 0.0)
   { name, help, labels, buckets, counts, sum: 0.0 }
 }
+
+pub fn observe(self: Histogram, v: Double) -> Unit {
+  self.sum = self.sum + v
+  let mut found = false
+  for i = 0; i < self.buckets.length(); i = i + 1 {
+    if v <= self.buckets[i] {
+      self.counts[i] = self.counts[i] + 1.0
+      found = true
+      break
+    }
+  }
+  if not(found) {
+    self.counts[self.buckets.length()] = self.counts[self.buckets.length()] + 1.0
+  }
+}
