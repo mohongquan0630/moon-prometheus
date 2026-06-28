@@ -4,5 +4,8 @@
   "license": "Apache-2.0",
   "readme": "README.md",
   "repository": "https://github.com/developer/moon-prometheus",
-  "keywords": ["prometheus", "metrics", "observability"]
+  "keywords": ["prometheus", "metrics", "observability"],
+  "deps": {
+    "bobzhang/crescent": "0.10.0"
+  }
 }
