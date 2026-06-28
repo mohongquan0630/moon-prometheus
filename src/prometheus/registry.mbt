@@ -3,6 +3,7 @@ enum Metric {
   MCounter(Counter)
   MGauge(Gauge)
   MHistogram(Histogram)
+  MSummary(Summary)
 }
 
 pub struct Registry {
@@ -31,4 +32,8 @@ pub fn get_metrics(self: Registry) -> Array[Metric] {
     arr.push(v)
   }
   arr
+}
+
+pub fn register_summary(self: Registry, s: Summary) -> Unit {
+  self.metrics.set(s.name, MSummary(s))
 }

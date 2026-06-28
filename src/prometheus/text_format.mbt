@@ -26,6 +26,12 @@ pub fn Registry::to_text_format(self: Registry) -> String {
         s = s + h.name + "_sum " + h.sum.to_string() + "\n"
         s = s + h.name + "_count " + total_count.to_string() + "\n"
       }
+      MSummary(su) => {
+        s = s + "# HELP " + su.name + " " + su.help + "\n"
+        s = s + "# TYPE " + su.name + " summary\n"
+        s = s + su.name + "_sum" + su.labels.to_string() + " " + su.sum.to_string() + "\n"
+        s = s + su.name + "_count" + su.labels.to_string() + " " + su.count.to_string() + "\n"
+      }
     }
   }
   s
