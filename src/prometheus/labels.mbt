@@ -1,25 +1,34 @@
 
-pub struct Label {
+pub(all) struct Label {
   name: String
   value: String
-} derive(Show, Eq)
+} derive(Debug, Eq)
 
-pub type LabelSet Array[Label] derive(Show, Eq)
+pub(all) struct LabelSet {
+  labels: Array[Label]
+} derive(Debug, Eq)
 
 pub fn LabelSet::new(labels: Array[Label]) -> LabelSet {
-  labels
+  { labels: labels }
 }
 
 pub fn LabelSet::to_string(self : LabelSet) -> String {
-  if self._.length() == 0 {
+  if self.labels.length() == 0 {
     return ""
   }
   let mut s = "{"
-  for i = 0; i < self._.length(); i = i + 1 {
+  for i = 0; i < self.labels.length(); i = i + 1 {
     if i > 0 {
       s = s + ","
     }
-    s = s + self._[i].name + "=\"" + self._[i].value + "\""
+    let label = self.labels[i]
+    let name = label.name
+    let value = label.value
+    s = s + "\{name}=\"\{value}\""
   }
   s + "}"
+}
+
+pub impl Show for LabelSet with output(self, logger) {
+  logger.write_string(self.to_string())
 }

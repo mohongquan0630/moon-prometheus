@@ -1,0 +1,10 @@
+name = "developer/moon-prometheus"
+version = "0.2.0"
+readme = "README.md"
+repository = "https://github.com/mohongquan0630/LunarMetrics"
+license = "Apache-2.0"
+keywords = ["prometheus", "metrics", "observability"]
+
+import {
+  "bobzhang/crescent@0.10.0"
+}

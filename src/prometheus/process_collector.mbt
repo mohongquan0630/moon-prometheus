@@ -12,5 +12,5 @@ pub fn ProcessCollector::new(registry: Registry) -> ProcessCollector {
   
   // In a real environment, you would periodically update these gauges using OS APIs
   // For MoonBit wasm environments, this acts as a placeholder
-  { registry }
+  { registry: registry }
 }

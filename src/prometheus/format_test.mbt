@@ -5,6 +5,6 @@ test "Text format" {
   c.inc()
   reg.register_counter(c)
   let out = reg.to_text_format()
-  assert_true!(out.contains("# TYPE http_reqs counter"))
-  assert_true!(out.contains("http_reqs{method=\"GET\"} 1"))
+  assert_true(out.contains("# TYPE http_reqs counter"))
+  assert_true(out.contains("http_reqs{method=\"GET\"} 1"))
 }

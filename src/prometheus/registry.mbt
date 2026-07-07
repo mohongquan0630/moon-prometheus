@@ -11,22 +11,22 @@ pub struct Registry {
 }
 
 pub fn Registry::new() -> Registry {
-  { metrics: Map::new() }
+  { metrics: Map([]) }
 }
 
-pub fn register_counter(self: Registry, c: Counter) -> Unit {
+pub fn Registry::register_counter(self: Registry, c: Counter) -> Unit {
   self.metrics.set(c.name, MCounter(c))
 }
 
-pub fn register_gauge(self: Registry, g: Gauge) -> Unit {
+pub fn Registry::register_gauge(self: Registry, g: Gauge) -> Unit {
   self.metrics.set(g.name, MGauge(g))
 }
 
-pub fn register_histogram(self: Registry, h: Histogram) -> Unit {
+pub fn Registry::register_histogram(self: Registry, h: Histogram) -> Unit {
   self.metrics.set(h.name, MHistogram(h))
 }
 
-pub fn get_metrics(self: Registry) -> Array[Metric] {
+pub fn Registry::get_metrics(self: Registry) -> Array[Metric] {
   let arr = []
   for _, v in self.metrics {
     arr.push(v)
@@ -34,6 +34,6 @@ pub fn get_metrics(self: Registry) -> Array[Metric] {
   arr
 }
 
-pub fn register_summary(self: Registry, s: Summary) -> Unit {
+pub fn Registry::register_summary(self: Registry, s: Summary) -> Unit {
   self.metrics.set(s.name, MSummary(s))
 }

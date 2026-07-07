@@ -1,0 +1,11 @@
+# MoonBit build outputs
+_build/
+
+# MoonBit package manager cache
+.mooncakes/
+.repos/
+
+# IDE and other artifacts
+.DS_Store
+.idea/
+.vscode/
