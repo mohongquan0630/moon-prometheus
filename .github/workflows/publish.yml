@@ -1,0 +1,44 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up MoonBit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+
+      - name: Prepublish check
+        run: |
+          moon version --all
+          moon update
+          moon check --deny-warn
+          moon test --deny-warn
+          moon fmt --check
+          moon info
+          git diff --exit-code
+
+      - name: Publish to mooncakes.io
+        env:
+          MOONCAKES_CREDENTIALS: ${{ secrets.MOONCAKES_CREDENTIALS }}
+        shell: bash
+        run: |
+          if [ -z "$MOONCAKES_CREDENTIALS" ]; then
+            echo "MOONCAKES_CREDENTIALS is not set."
+            exit 1
+          fi
+          mkdir -p "$HOME/.moon"
+          printf '%s' "$MOONCAKES_CREDENTIALS" > "$HOME/.moon/credentials.json"
+          moon publish
+          rm "$HOME/.moon/credentials.json"

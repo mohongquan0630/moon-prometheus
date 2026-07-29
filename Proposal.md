@@ -25,9 +25,14 @@
 - **原创项目**。本项目在底层实现、数据结构设计与内存模型均完全由团队使用 MoonBit 从零开发，未直接移植任何代码，以保证最佳的 MoonBit 原生体验。
 - **参考标准**：API 设计与文本协议完全参考 CNCF Prometheus 官方设定的 OpenMetrics 规范。
 
-## 6. GitHub 仓库链接与提交状态
-- **仓库已建成，初始代码与 15 个有效渐进式提交（Commits）已就绪**。
-- 仓库避免了无意义的重复提交和空提交，涵盖了从架构搭建、核心类实现、核心算法到各类组件测试、序列化等完整的人类正常开发历程。
+## 6. 公开仓库与提交状态
+- GitLink 仓库：<https://gitlink.org.cn/mohongquan0630/moon-prometheus>
+- 默认分支：`main`
+- 仓库避免无意义的重复提交和空提交，提交历史覆盖架构搭建、核心指标类型、文本序列化、PushGateway、Crescent 集成说明、测试和验收修正。
+- GitLink 侧仅保留账号创建者本人作为贡献者身份，不为了对齐 GitHub 用户制造虚拟贡献者。
 
-## 7. Gitlink 仓库链接
-*(请将本地仓库推送后，在此填入 Gitlink 与 GitHub 同步的对应链接)*
+## 7. 验收补充
+- README 已补充安装、示例、开发命令、范围边界和来源声明。
+- CI 已补充 `.github/workflows/test.yml`，覆盖 Linux、macOS、Windows。
+- 发布工作流已补充 `.github/workflows/publish.yml`，用于配置 mooncakes.io 凭证后手动发布。
+- 当前本地验证命令：`moon fmt --check`、`moon check --deny-warn`、`moon test --deny-warn`、`moon info`、`moon run cmd/main`。

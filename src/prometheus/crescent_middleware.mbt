@@ -1,4 +1,3 @@
-
 // Note: This requires bobzhang/crescent web framework
 // pub fn metrics_middleware(registry: Registry) -> Middleware {
 //   let http_requests_total = Counter::new("http_requests_total", "Total HTTP requests")

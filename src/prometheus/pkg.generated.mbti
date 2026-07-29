@@ -1,0 +1,114 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "mohongquan0630/moon-prometheus/src/prometheus"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+pub struct Counter {
+  name : String
+  help : String
+  labels : LabelSet
+  mut value : Double
+} derive(@debug.Debug)
+pub fn Counter::add(Self, Double) -> Unit
+pub fn Counter::help(Self) -> String
+pub fn Counter::inc(Self) -> Unit
+pub fn Counter::name(Self) -> String
+pub fn Counter::new(String, String, labels? : LabelSet) -> Self
+pub fn Counter::value(Self) -> Double
+
+pub struct Gauge {
+  name : String
+  help : String
+  labels : LabelSet
+  mut value : Double
+} derive(@debug.Debug)
+pub fn Gauge::add(Self, Double) -> Unit
+pub fn Gauge::dec(Self) -> Unit
+pub fn Gauge::inc(Self) -> Unit
+pub fn Gauge::name(Self) -> String
+pub fn Gauge::new(String, String, labels? : LabelSet) -> Self
+pub fn Gauge::set(Self, Double) -> Unit
+pub fn Gauge::sub(Self, Double) -> Unit
+pub fn Gauge::value(Self) -> Double
+
+pub struct Histogram {
+  name : String
+  help : String
+  labels : LabelSet
+  buckets : Array[Double]
+  counts : Array[Double]
+  mut sum : Double
+} derive(@debug.Debug)
+pub fn Histogram::bucket_count(Self, Int) -> Double
+pub fn Histogram::count(Self) -> Double
+pub fn Histogram::new(String, String, buckets? : Array[Double], labels? : LabelSet) -> Self
+pub fn Histogram::observe(Self, Double) -> Unit
+pub fn Histogram::sum(Self) -> Double
+
+pub(all) struct Label {
+  name : String
+  value : String
+} derive(Eq, @debug.Debug)
+
+pub(all) struct LabelSet {
+  labels : Array[Label]
+} derive(Eq, @debug.Debug)
+pub fn LabelSet::is_empty(Self) -> Bool
+pub fn LabelSet::length(Self) -> Int
+pub fn LabelSet::new(Array[Label]) -> Self
+pub fn LabelSet::to_bucket_string(Self, String) -> String
+pub fn LabelSet::to_string(Self) -> String
+pub impl Show for LabelSet
+
+type Metric
+
+pub struct ProcessCollector {
+  registry : Registry
+}
+pub fn ProcessCollector::new(Registry) -> Self
+
+pub struct PushGateway {
+  url : String
+  job : String
+}
+pub fn PushGateway::format_push_payload(Self, Registry) -> String
+pub fn PushGateway::new(String, String) -> Self
+pub fn PushGateway::push_url(Self) -> String
+
+pub struct Registry {
+  metrics : Map[String, Metric]
+}
+pub fn Registry::contains(Self, String) -> Bool
+pub fn Registry::is_empty(Self) -> Bool
+pub fn Registry::len(Self) -> Int
+pub fn Registry::new() -> Self
+pub fn Registry::register_counter(Self, Counter) -> Unit
+pub fn Registry::register_gauge(Self, Gauge) -> Unit
+pub fn Registry::register_histogram(Self, Histogram) -> Unit
+pub fn Registry::register_summary(Self, Summary) -> Unit
+pub fn Registry::to_text_format(Self) -> String
+
+pub struct Summary {
+  name : String
+  help : String
+  labels : LabelSet
+  mut sum : Double
+  mut count : Double
+} derive(@debug.Debug)
+pub fn Summary::count(Self) -> Double
+pub fn Summary::mean(Self) -> Double
+pub fn Summary::new(String, String, labels? : LabelSet) -> Self
+pub fn Summary::observe(Self, Double) -> Unit
+pub fn Summary::sum(Self) -> Double
+
+// Type aliases
+
+// Traits
+

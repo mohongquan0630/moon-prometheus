@@ -1,4 +1,4 @@
-
+///|
 test "ProcessCollector registration" {
   let reg = Registry::new()
   let _ = ProcessCollector::new(reg)
