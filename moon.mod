@@ -1,6 +1,6 @@
 name = "mohongquan0630/moon-prometheus"
 
-version = "0.2.5"
+version = "0.2.6"
 
 readme = "README.md"
 

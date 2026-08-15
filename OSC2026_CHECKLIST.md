@@ -20,7 +20,7 @@
 
 ## Scope and compliance notes
 
-- The repository contains about 1,350 lines of tracked MoonBit source and tests; the companion plasma repository brings the local acceptance set above 3,000 lines without counting caches or generated dependencies.
+- The repository contains about 1,500 lines of tracked MoonBit source and tests; the companion plasma repository brings the local acceptance set above 3,300 lines without counting caches or generated dependencies.
 - `ProcessCollector` is deliberately portable sample storage. It does not claim to probe OS metrics automatically.
 - `PushGateway` builds an escaped URL and exposition payload. It does not perform network I/O.
 - The native integration dependency is `bobzhang/crescent@0.11.0`, used by the tested `src/prometheus/crescent` adapter and kept under its Apache-2.0 license; see `THIRD_PARTY_NOTICES.md`.
