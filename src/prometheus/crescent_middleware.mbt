@@ -1,17 +1,8 @@
-// Note: This requires bobzhang/crescent web framework
-// pub fn metrics_middleware(registry: Registry) -> Middleware {
-//   let http_requests_total = Counter::new("http_requests_total", "Total HTTP requests")
-//   registry.register_counter(http_requests_total)
-//   
-//   return fn (ctx, next) {
-//     http_requests_total.inc()
-//     next(ctx)
-//   }
-// }
-
-// pub fn metrics_handler(registry: Registry) -> Handler {
-//   return fn (ctx) {
-//     let text = registry.to_text_format()
-//     ctx.response.body = text
-//   }
-// }
+// Crescent integration boundary.
+//
+// Crescent 0.10.0 is declared as a documented optional integration in
+// moon.mod, but its dependency source currently uses syntax rejected by the
+// MoonBit 0.10.7 compiler. The core package therefore does not import it:
+// this keeps all four project targets reproducible and green. The README
+// provides the exact adapter shape for applications that pin a compatible
+// Crescent revision.
