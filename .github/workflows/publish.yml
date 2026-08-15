@@ -25,7 +25,7 @@ jobs:
           moon update
           moon check --deny-warn
           moon test --deny-warn
-          moon check --deny-warn --fmt --target all
+          moon fmt --check
           moon info
           git diff --exit-code
 

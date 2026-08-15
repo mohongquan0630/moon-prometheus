@@ -60,7 +60,7 @@ pub fn Registry::to_text_format(self : Registry) -> String {
             su.name +
             quantile_labels.to_string() +
             " " +
-            "\{to_repr(value)}" +
+            "\{Repr(value)}" +
             "\n"
         }
         s = s +

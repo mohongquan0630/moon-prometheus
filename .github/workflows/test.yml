@@ -34,14 +34,9 @@ jobs:
           irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
           "$HOME/.moon/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
 
-      - name: Set up native compiler on Windows
+      - name: Set up MSVC on Windows
         if: runner.os == 'Windows'
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: UCRT64
-          update: true
-          install: >-
-            mingw-w64-ucrt-x86_64-gcc
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: MoonBit version
         run: moon version --all
@@ -50,7 +45,7 @@ jobs:
         run: moon update
 
       - name: Format check
-        run: moon check --deny-warn --fmt --target all
+        run: moon fmt --check
 
       - name: Type check
         run: moon check --deny-warn --target all
