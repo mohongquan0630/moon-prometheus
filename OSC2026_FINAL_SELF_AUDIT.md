@@ -8,7 +8,7 @@
 
 ## 已核验证据
 
-- GitHub 与 GitLink 默认分支均为 `main`；本地、GitHub、GitLink 均指向提交 `4d99d87`。
+- GitHub 与 GitLink 默认分支均为 `main`；本地、GitHub、GitLink 均已同步到最终主分支。
 - 根目录存在 Apache-2.0 `LICENSE`、`NOTICE`、`THIRD_PARTY_NOTICES.md`、README、Proposal 和本清单。
 - `moon.mod` 模块名为 `mohongquan0630/moon-prometheus`，仓库 URL 与 GitLink 一致；native 集成依赖为 `bobzhang/crescent@0.11.0`，已声明来源和许可证。
 - 约 1,500 行 MoonBit 源码与测试；核心 API 覆盖 Counter、Gauge、Histogram、Summary、Labels、Registry、文本序列化、PushGateway 构造器、ProcessCollector、Crescent adapter 和确定性 benchmark。
@@ -17,14 +17,14 @@
 - `moon run cmd/main`：通过，输出 Prometheus exposition 和确定性 benchmark CSV。
 - `.github/workflows/test.yml` 覆盖 Linux、macOS、Windows，包含格式、全目标检查、测试、接口生成和工作树洁净度检查；`.github/workflows/publish.yml` 提供手动发布流程。
 - 提交历史包含架构、指标类型、序列化、集成、测试和验收修正等有意义提交，未使用空提交填充。
-- `mohongquan0630/moon-prometheus@0.2.5` 已通过 `moon publish` 发布，发布压缩包解包复检通过。
+- `mohongquan0630/moon-prometheus@0.2.6` 已通过 `moon publish` 发布，发布压缩包解包复检通过。
 - 最新 GitHub Actions run `31897323311` 的 Windows、Ubuntu、macOS 三个 job 均为 success。
 
 ## 远程交付确认
 
 - GitLink 页面已同步 README、LICENSE、主要源码和提交历史。
 - GitHub 默认分支 CI 已通过三平台矩阵。
-- Mooncakes 已发布 `mohongquan0630/moon-prometheus@0.2.5`。
+- Mooncakes 已发布 `mohongquan0630/moon-prometheus@0.2.6`。
 
 ## 已知环境限制
 
