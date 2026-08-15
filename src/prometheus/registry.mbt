@@ -8,7 +8,7 @@ enum Metric {
 
 ///|
 pub struct Registry {
-  metrics : Map[String, Metric]
+  mut metrics : Map[String, Metric]
 }
 
 ///|
@@ -67,4 +67,65 @@ pub fn Registry::contains(self : Registry, name : String) -> Bool {
     }
   }
   false
+}
+
+///|
+pub fn Registry::metric_names(self : Registry) -> Array[String] {
+  let pending : Array[String] = []
+  for name, _ in self.metrics {
+    pending.push(name)
+  }
+  let names : Array[String] = []
+  while pending.length() > 0 {
+    let mut minimum = 0
+    for index in 1..<pending.length() {
+      if lexical_compare(pending[index], pending[minimum]) < 0 {
+        minimum = index
+      }
+    }
+    names.push(pending[minimum])
+    ignore(pending.remove(minimum))
+  }
+  names
+}
+
+///|
+pub fn Registry::remove(self : Registry, name : String) -> Bool {
+  if self.contains(name) {
+    self.metrics.remove(name)
+    true
+  } else {
+    false
+  }
+}
+
+///|
+pub fn Registry::clear(self : Registry) -> Unit {
+  self.metrics = Map([])
+}
+
+///|
+pub fn Registry::register_counter_if_valid(
+  self : Registry,
+  counter : Counter,
+) -> Bool {
+  if validate_metric_name(counter.name) {
+    self.register_counter(counter)
+    true
+  } else {
+    false
+  }
+}
+
+///|
+pub fn Registry::register_gauge_if_valid(
+  self : Registry,
+  gauge : Gauge,
+) -> Bool {
+  if validate_metric_name(gauge.name) {
+    self.register_gauge(gauge)
+    true
+  } else {
+    false
+  }
 }

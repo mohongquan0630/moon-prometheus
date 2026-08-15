@@ -53,6 +53,16 @@ pub fn Registry::to_text_format(self : Registry) -> String {
       MSummary(su) => {
         s = s + "# HELP " + su.name + " " + su.help + "\n"
         s = s + "# TYPE " + su.name + " summary\n"
+        for pair in su.quantile_values() {
+          let (q, value) = pair
+          let quantile_labels = su.labels.with_label("quantile", q.to_string())
+          s = s +
+            su.name +
+            quantile_labels.to_string() +
+            " " +
+            "\{to_repr(value)}" +
+            "\n"
+        }
         s = s +
           su.name +
           "_sum" +

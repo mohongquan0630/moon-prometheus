@@ -6,6 +6,15 @@ import {
 }
 
 // Values
+pub fn benchmark_report_csv(ArrayView[MetricBenchmarkCase]) -> String
+
+pub fn escape_label_value(String) -> String
+
+pub fn run_metric_benchmark_suite() -> Array[MetricBenchmarkCase]
+
+pub fn validate_label_name(String) -> Bool
+
+pub fn validate_metric_name(String) -> Bool
 
 // Errors
 
@@ -46,8 +55,10 @@ pub struct Histogram {
   counts : Array[Double]
   mut sum : Double
 } derive(@debug.Debug)
+pub fn Histogram::bucket_bounds(Self) -> Array[Double]
 pub fn Histogram::bucket_count(Self, Int) -> Double
 pub fn Histogram::count(Self) -> Double
+pub fn Histogram::cumulative_bucket_count(Self, Int) -> Double
 pub fn Histogram::new(String, String, buckets? : Array[Double], labels? : LabelSet) -> Self
 pub fn Histogram::observe(Self, Double) -> Unit
 pub fn Histogram::sum(Self) -> Double
@@ -60,52 +71,109 @@ pub(all) struct Label {
 pub(all) struct LabelSet {
   labels : Array[Label]
 } derive(Eq, @debug.Debug)
+pub fn LabelSet::contains(Self, String) -> Bool
+pub fn LabelSet::from_pairs(Array[(String, String)]) -> Self
+pub fn LabelSet::get(Self, String) -> String?
 pub fn LabelSet::is_empty(Self) -> Bool
+pub fn LabelSet::is_valid(Self) -> Bool
 pub fn LabelSet::length(Self) -> Int
+pub fn LabelSet::merge(Self, Self) -> Self
+pub fn LabelSet::names(Self) -> Array[String]
 pub fn LabelSet::new(Array[Label]) -> Self
 pub fn LabelSet::to_bucket_string(Self, String) -> String
 pub fn LabelSet::to_string(Self) -> String
+pub fn LabelSet::with_label(Self, String, String) -> Self
 pub impl Show for LabelSet
 
 type Metric
 
+pub struct MetricBenchmarkCase {
+  name : String
+  samples : Int
+  observations : Int
+  serialized_bytes : Int
+  checksum : Double
+} derive(ToJson, @debug.Debug)
+pub fn MetricBenchmarkCase::checksum(Self) -> Double
+pub fn MetricBenchmarkCase::name(Self) -> String
+pub fn MetricBenchmarkCase::observations(Self) -> Int
+pub fn MetricBenchmarkCase::samples(Self) -> Int
+pub fn MetricBenchmarkCase::serialized_bytes(Self) -> Int
+
+pub(all) struct MetricDescriptor {
+  name : String
+  help : String
+  metric_type : MetricType
+  label_names : Array[String]
+} derive(@debug.Debug)
+pub fn MetricDescriptor::accepts_labels(Self, LabelSet) -> Bool
+pub fn MetricDescriptor::is_valid(Self) -> Bool
+pub fn MetricDescriptor::label_names(Self) -> Array[String]
+pub fn MetricDescriptor::new(String, String, MetricType, Array[String]) -> Self
+pub fn MetricDescriptor::summary(Self) -> String
+
+pub(all) enum MetricType {
+  CounterType
+  GaugeType
+  HistogramType
+  SummaryType
+} derive(Eq, @debug.Debug)
+
 pub struct ProcessCollector {
   registry : Registry
+  cpu_seconds : Gauge
+  virtual_memory_bytes : Gauge
+  open_file_descriptors : Gauge
 }
+pub fn ProcessCollector::collect(Self) -> Unit
 pub fn ProcessCollector::new(Registry) -> Self
+pub fn ProcessCollector::set_cpu_seconds(Self, Double) -> Unit
+pub fn ProcessCollector::set_open_file_descriptors(Self, Double) -> Unit
+pub fn ProcessCollector::set_virtual_memory_bytes(Self, Double) -> Unit
 
 pub struct PushGateway {
   url : String
   job : String
+  grouping : LabelSet
 }
 pub fn PushGateway::format_push_payload(Self, Registry) -> String
 pub fn PushGateway::new(String, String) -> Self
 pub fn PushGateway::push_url(Self) -> String
+pub fn PushGateway::with_grouping_labels(Self, LabelSet) -> Self
 
 pub struct Registry {
-  metrics : Map[String, Metric]
+  mut metrics : Map[String, Metric]
 }
+pub fn Registry::clear(Self) -> Unit
 pub fn Registry::contains(Self, String) -> Bool
 pub fn Registry::is_empty(Self) -> Bool
 pub fn Registry::len(Self) -> Int
+pub fn Registry::metric_names(Self) -> Array[String]
 pub fn Registry::new() -> Self
 pub fn Registry::register_counter(Self, Counter) -> Unit
+pub fn Registry::register_counter_if_valid(Self, Counter) -> Bool
 pub fn Registry::register_gauge(Self, Gauge) -> Unit
+pub fn Registry::register_gauge_if_valid(Self, Gauge) -> Bool
 pub fn Registry::register_histogram(Self, Histogram) -> Unit
 pub fn Registry::register_summary(Self, Summary) -> Unit
+pub fn Registry::remove(Self, String) -> Bool
 pub fn Registry::to_text_format(Self) -> String
 
 pub struct Summary {
   name : String
   help : String
   labels : LabelSet
+  quantiles : Array[Double]
+  observations : Array[Double]
   mut sum : Double
   mut count : Double
 } derive(@debug.Debug)
 pub fn Summary::count(Self) -> Double
 pub fn Summary::mean(Self) -> Double
-pub fn Summary::new(String, String, labels? : LabelSet) -> Self
+pub fn Summary::new(String, String, labels? : LabelSet, quantiles? : Array[Double]) -> Self
 pub fn Summary::observe(Self, Double) -> Unit
+pub fn Summary::quantile(Self, Double) -> Double?
+pub fn Summary::quantile_values(Self) -> Array[(Double, Double)]
 pub fn Summary::sum(Self) -> Double
 
 // Type aliases

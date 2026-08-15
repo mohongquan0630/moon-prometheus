@@ -21,4 +21,8 @@ fn main {
   latency.observe(0.8)
   registry.register_histogram(latency)
   println(registry.to_text_format())
+  println("# deterministic benchmark report")
+  println(
+    @prometheus.benchmark_report_csv(@prometheus.run_metric_benchmark_suite()),
+  )
 }

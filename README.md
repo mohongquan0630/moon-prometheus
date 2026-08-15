@@ -1,6 +1,6 @@
 # moon-prometheus
 
-`moon-prometheus` is a MoonBit Prometheus metrics client for service instrumentation, CLI tooling, batch jobs, and edge workloads. It provides metric types, multidimensional labels, a registry, text exposition output, PushGateway payload helpers, process collector placeholders, and a runnable demo.
+`moon-prometheus` is a MoonBit metrics library for service instrumentation, CLI tooling, batch jobs, and edge workloads. It provides metric types, validated multidimensional labels, a registry, Prometheus text exposition, PushGateway payload helpers, portable process samples, and deterministic benchmark fixtures.
 
 This repository is prepared for MoonBit OSC2026 acceptance. It is public, Apache-2.0 licensed, tested with MoonBit, and includes CI plus generated public API information.
 
@@ -10,14 +10,16 @@ This repository is prepared for MoonBit OSC2026 acceptance. It is public, Apache
   - `Counter`: A monotonically increasing cumulative metric (e.g., total requests, errors).
   - `Gauge`: A single numerical value that can arbitrarily go up and down (e.g., memory usage, concurrent connections).
   - `Histogram`: Samples observations (e.g., request durations) and counts them in configurable buckets.
-  - `Summary`: Tracks the distribution of sliding-window quantiles.
+  - `Summary`: Stores observations in memory and exposes configured quantiles plus aggregate sum/count values.
 - **Metric Registry**: Central registry for metrics registration and text exposition.
-- **Multidimensional Labels**: Supports tagging metrics with key-value labels for multi-dimensional analysis.
-- **OpenMetrics Serializer**: High-performance serialization into the standard Prometheus text exposition format.
+- **Multidimensional Labels**: Validates names, escapes control characters, normalizes label order, and supports lookup/merge.
+- **Metric Contracts**: `MetricDescriptor` documents a metric family and checks its label set before registration.
+- **Prometheus Serializer**: Emits `HELP`, `TYPE`, cumulative histogram buckets, summary quantiles, and escaped labels.
 - **Ecosystem Integrations**:
   - **Crescent Middleware Notes**: Adapter notes for the `bobzhang/crescent` HTTP framework.
   - **PushGateway Exporter**: Construct payloads to push metrics for ephemeral or batch jobs.
-  - **ProcessCollector**: Default system metric collectors (CPU, memory size) to monitor application process status.
+  - **ProcessCollector**: Portable CPU, virtual-memory, and open-file-descriptor samples that the host runtime can update.
+- **Deterministic Benchmark Suite**: Exercises counter, histogram, and summary workloads and reports observations, serialized bytes, and checksums.
 
 ## Installation
 
@@ -57,10 +59,10 @@ Verify the codebase:
 moon fmt --check
 moon check --deny-warn
 moon test --deny-warn
-moon info
+moon info --target all
 ```
 
-The GitHub Actions workflow also runs the checks on Linux, macOS, and Windows. It installs the latest MoonBit toolchain and checks all supported targets in CI.
+The CI workflow runs the checks on Linux, macOS, and Windows. It installs the official MoonBit toolchain, checks all supported targets, verifies generated `.mbti` files, and builds the native target with a platform compiler.
 
 ## Acceptance Notes
 
@@ -78,7 +80,15 @@ The implementation is original MoonBit code for this repository. API names and t
 
 ## Current Scope
 
-This package focuses on deterministic metric construction and exposition. It does not yet perform direct HTTP serving, background collection, or OS-specific process probing; those are extension points for framework adapters and runtime-specific packages.
+This package focuses on deterministic metric construction and exposition. It does not perform direct HTTP serving, network I/O, background scheduling, or OS-specific process probing. The Crescent note and ProcessCollector API are explicit integration boundaries: a host application supplies the transport and runtime samples.
+
+## Reproducible benchmark data
+
+The benchmark suite is a deterministic workload, not a wall-clock claim. It records exact operation counts, serialized output size, and a checksum so CI and reviewers can compare behavior across MoonBit backends without machine-dependent timing noise.
+
+```sh
+moon run cmd/main
+```
 
 ## Release Checklist
 
@@ -86,7 +96,7 @@ This package focuses on deterministic metric construction and exposition. It doe
 moon fmt --check
 moon check --deny-warn
 moon test --deny-warn
-moon info
+moon info --target all
 git diff --exit-code
 ```
 

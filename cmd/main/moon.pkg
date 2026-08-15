@@ -1,5 +1,7 @@
-pkgtype(kind: "executable")
-
 import {
   "mohongquan0630/moon-prometheus/src/prometheus",
 }
+
+options(
+  "is-main": true,
+)

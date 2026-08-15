@@ -15,8 +15,23 @@ pub fn Histogram::new(
   buckets? : Array[Double] = [0.1, 0.5, 1.0, 5.0, 10.0],
   labels? : LabelSet = LabelSet::new([]),
 ) -> Histogram {
-  let counts = Array::make(buckets.length() + 1, 0.0)
-  { name, help, labels, buckets, counts, sum: 0.0 }
+  let sorted : Array[Double] = []
+  for bucket in buckets {
+    sorted.push(bucket)
+  }
+  sorted.sort()
+  let normalized : Array[Double] = []
+  for bucket in sorted {
+    if bucket == bucket &&
+      (
+        normalized.length() == 0 ||
+        normalized[normalized.length() - 1] != bucket
+      ) {
+      normalized.push(bucket)
+    }
+  }
+  let counts = Array::make(normalized.length() + 1, 0.0)
+  { name, help, labels, buckets: normalized, counts, sum: 0.0 }
 }
 
 ///|
@@ -52,5 +67,35 @@ pub fn Histogram::bucket_count(self : Histogram, index : Int) -> Double {
     0.0
   } else {
     self.counts[index]
+  }
+}
+
+///|
+pub fn Histogram::bucket_bounds(self : Histogram) -> Array[Double] {
+  let result : Array[Double] = []
+  for bucket in self.buckets {
+    result.push(bucket)
+  }
+  result
+}
+
+///|
+pub fn Histogram::cumulative_bucket_count(
+  self : Histogram,
+  index : Int,
+) -> Double {
+  if index < 0 {
+    0.0
+  } else {
+    let last = if index >= self.counts.length() {
+      self.counts.length() - 1
+    } else {
+      index
+    }
+    let mut total = 0.0
+    for i in 0..<=last {
+      total = total + self.counts[i]
+    }
+    total
   }
 }
