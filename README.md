@@ -62,7 +62,7 @@ moon test --deny-warn
 moon info --target all
 ```
 
-The CI workflow runs the checks on Linux, macOS, and Windows. It installs the official MoonBit toolchain, checks formatting with `moon check --fmt`, checks all supported targets, verifies generated `.mbti` files, and builds the native target with a platform compiler.
+The CI workflow runs the checks on Linux, macOS, and Windows. It installs the official MoonBit toolchain, checks formatting with `moon fmt --check`, checks all supported targets, verifies generated `.mbti` files, and builds the native target with a platform compiler.
 
 ## Acceptance Notes
 

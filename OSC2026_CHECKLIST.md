@@ -35,4 +35,4 @@ moon info --target all
 moon run cmd/main
 ```
 
-The local acceptance toolchain reports `moonc v0.10.3`. `moon check` and `moon test` support `--deny-warn`; `moon fmt` supports `--check`, and `moon info` supports `--target`. The current CLI rejects `--deny-warn` for `fmt` and `info`, so the strict equivalent is `moon fmt --check` plus `moon info --target all`.
+The local acceptance toolchain reports `moonc v0.10.7`. `moon check` and `moon test` support `--deny-warn`; `moon fmt` supports `--check`, and `moon info` supports `--target`. The strict local release checks are `moon fmt --check`, `moon check --deny-warn`, `moon test --deny-warn`, and `moon info --target all`.

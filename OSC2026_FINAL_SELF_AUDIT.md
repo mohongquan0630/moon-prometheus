@@ -26,7 +26,7 @@
 
 ## 已知环境限制
 
-当前机器没有系统 C 编译器。因此 `moon test --deny-warn --target all` 的 wasm、wasm-gc、js 目标均通过，native 目标仅因环境缺少 `cl`/`cc`/`gcc`/`clang` 被阻断；CI 的 Windows MSYS2 步骤负责提供编译器。
+当前机器已安装 MSYS2 UCRT GCC 和 Visual Studio 2022 C++ Build Tools。使用最新 `moonc v0.10.7` 在 ASCII 临时工作目录下，native 目标 25/25 通过；原中文工作路径仍可能触发底层编译器路径编码问题，因此本地 native 复测使用 ASCII 镜像目录，CI 使用 Windows MSVC。
 
 ## 结论等级
 
