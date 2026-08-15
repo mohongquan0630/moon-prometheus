@@ -23,7 +23,6 @@ jobs:
       - name: Set up MoonBit on Unix
         if: runner.os != 'Windows'
         run: |
-          export MOONBIT_INSTALL_VERSION=0.10.3
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
 
@@ -31,7 +30,6 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $env:MOONBIT_INSTALL_VERSION = "0.10.3"
           Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
           irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
           "$HOME/.moon/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
@@ -51,8 +49,18 @@ jobs:
       - name: Update dependencies
         run: moon update
 
-      - name: Format check
-        run: moon fmt --check
+      - name: Format check on Unix
+        if: runner.os != 'Windows'
+        run: |
+          files=$(git ls-files '*.mbt' '*.mbt.md')
+          moon fmt --check $files
+
+      - name: Format check on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $files = git ls-files '*.mbt' '*.mbt.md'
+          moon fmt --check $files
 
       - name: Type check
         run: moon check --deny-warn --target all
