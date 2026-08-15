@@ -16,7 +16,7 @@ This repository is prepared for MoonBit OSC2026 acceptance. It is public, Apache
 - **Metric Contracts**: `MetricDescriptor` documents a metric family and checks its label set before registration.
 - **Prometheus Serializer**: Emits `HELP`, `TYPE`, cumulative histogram buckets, summary quantiles, and escaped labels.
 - **Ecosystem Integrations**:
-  - **Crescent Middleware Notes**: Adapter notes for the `bobzhang/crescent` HTTP framework.
+  - **Crescent Middleware**: Native `bobzhang/crescent@0.11.0` middleware, `/metrics` handler, and app installer.
   - **PushGateway Exporter**: Construct payloads to push metrics for ephemeral or batch jobs.
   - **ProcessCollector**: Portable CPU, virtual-memory, and open-file-descriptor samples that the host runtime can update.
 - **Deterministic Benchmark Suite**: Exercises counter, histogram, and summary workloads and reports observations, serialized bytes, and checksums.
@@ -27,6 +27,13 @@ Add the package to your MoonBit project:
 
 ```sh
 moon add mohongquan0630/moon-prometheus
+```
+
+The optional Crescent adapter is native-only and uses the compatible
+`bobzhang/crescent@0.11.0` package:
+
+```sh
+moon add bobzhang/crescent@0.11.0
 ```
 
 ## Usage
@@ -44,6 +51,26 @@ registry.register_gauge(gauge)
 
 println(registry.to_text_format())
 ```
+
+For a Crescent application, import the adapter package and install it on the
+app. The adapter increments `http_requests_total` and serves the registry at
+`/metrics`:
+
+```moonbit
+import {
+  "mohongquan0630/moon-prometheus/src/prometheus" @prometheus,
+  "mohongquan0630/moon-prometheus/src/prometheus/crescent" @metrics_crescent,
+  "bobzhang/crescent" @web,
+}
+
+let registry = @prometheus.Registry::new()
+let app = @web.App()
+@metrics_crescent.install(app, registry)
+```
+
+Run the native integration tests with `moon test --target native`; the adapter
+package contains tests for delegation, request counting, exposition output,
+and route registration.
 
 Run the included demo:
 
@@ -80,7 +107,10 @@ The implementation is original MoonBit code for this repository. API names and t
 
 ## Current Scope
 
-This package focuses on deterministic metric construction and exposition. It does not perform direct HTTP serving, network I/O, background scheduling, or OS-specific process probing. The Crescent note and ProcessCollector API are explicit integration boundaries: a host application supplies the transport and runtime samples.
+The parent package focuses on deterministic metric construction and exposition.
+The separate Crescent adapter performs framework registration but leaves socket
+serving to Crescent. ProcessCollector remains portable: a host runtime supplies
+the process samples rather than relying on OS-specific probing.
 
 ## Reproducible benchmark data
 

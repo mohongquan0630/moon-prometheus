@@ -13,7 +13,7 @@
 
 - Clear README with install, usage, development, scope, and source statements.
 - Runnable example: `moon run cmd/main`
-- 25 unit tests covering counters, gauges, histogram normalization, summary quantiles, label escaping, metric contracts, registry queries, PushGateway URL formatting, portable process samples, deterministic benchmarks, and text exposition.
+- 25 core unit tests plus 3 native Crescent integration tests covering counters, gauges, histogram normalization, summary quantiles, label escaping, metric contracts, registry queries, PushGateway URL formatting, portable process samples, deterministic benchmarks, text exposition, middleware delegation, and route registration.
 - Generated public API file: `src/prometheus/pkg.generated.mbti`
 - CI workflow: `.github/workflows/test.yml`
 - Manual mooncakes.io publish workflow: `.github/workflows/publish.yml`
@@ -23,7 +23,7 @@
 - The repository contains about 1,350 lines of tracked MoonBit source and tests; the companion plasma repository brings the local acceptance set above 3,000 lines without counting caches or generated dependencies.
 - `ProcessCollector` is deliberately portable sample storage. It does not claim to probe OS metrics automatically.
 - `PushGateway` builds an escaped URL and exposition payload. It does not perform network I/O.
-- The only non-core dependency is `bobzhang/crescent@0.10.0`, used for integration notes and kept under its Apache-2.0 license; see `THIRD_PARTY_NOTICES.md`.
+- The native integration dependency is `bobzhang/crescent@0.11.0`, used by the tested `src/prometheus/crescent` adapter and kept under its Apache-2.0 license; see `THIRD_PARTY_NOTICES.md`.
 
 ## Local Validation
 

@@ -1,0 +1,12 @@
+import {
+  "bobzhang/crescent" @web,
+  "mohongquan0630/moon-prometheus/src/prometheus" @metrics,
+}
+
+import {
+  "moonbitlang/async",
+  "moonbitlang/core/buffer",
+  "moonbitlang/core/encoding/utf8",
+} for "test"
+
+supported_targets = "-all+native"

@@ -10,9 +10,9 @@
 
 - `git remote show origin`：GitLink 默认分支为 `main`；本地 `main` 与 `origin/main` 基线一致，当前改动尚未推送。
 - 根目录存在 Apache-2.0 `LICENSE`、`NOTICE`、`THIRD_PARTY_NOTICES.md`、README、Proposal 和本清单。
-- `moon.mod` 模块名为 `mohongquan0630/moon-prometheus`，仓库 URL 与 GitLink 一致；唯一额外依赖为 `bobzhang/crescent@0.10.0`，已声明来源和许可证。
+- `moon.mod` 模块名为 `mohongquan0630/moon-prometheus`，仓库 URL 与 GitLink 一致；native 集成依赖为 `bobzhang/crescent@0.11.0`，已声明来源和许可证。
 - 约 1,467 行 MoonBit 源码与测试；核心 API 覆盖 Counter、Gauge、Histogram、Summary、Labels、Registry、文本序列化、PushGateway 构造器、ProcessCollector 和确定性 benchmark。
-- `moon fmt --check`、`moon check --deny-warn`、`moon test --deny-warn`：25/25 通过。
+- `moon fmt --check`、`moon check --deny-warn`、`moon test --deny-warn`：核心目标 25/25 通过，native 含 Crescent 集成共 28/28 通过。
 - `moon check --deny-warn --target all`、`moon info --target all`：通过；生成的 `src/prometheus/pkg.generated.mbti` 已纳入仓库。
 - `moon run cmd/main`：通过，输出 Prometheus exposition 和确定性 benchmark CSV。
 - `.github/workflows/test.yml` 覆盖 Linux、macOS、Windows，包含格式、全目标检查、测试、接口生成和工作树洁净度检查；`.github/workflows/publish.yml` 提供手动发布流程。
@@ -26,7 +26,7 @@
 
 ## 已知环境限制
 
-当前机器已安装 MSYS2 UCRT GCC 和 Visual Studio 2022 C++ Build Tools。使用最新 `moonc v0.10.7` 在 ASCII 临时工作目录下，native 目标 25/25 通过；原中文工作路径仍可能触发底层编译器路径编码问题，因此本地 native 复测使用 ASCII 镜像目录，CI 使用 Windows MSVC。
+当前机器已安装 MSYS2 UCRT GCC 和 Visual Studio 2022 C++ Build Tools。使用最新 `moonc v0.10.7` 在原工作目录完成 native 28/28 验证，CI 使用 Windows MSVC。
 
 ## 结论等级
 

@@ -9,9 +9,9 @@
 - Counter、Gauge、Histogram、Summary 及多维标签模型，支持名称校验、转义和标签规范化。
 - Registry 注册、查询、移除和确定性文本序列化，输出 HELP、TYPE、累计桶、分位数和聚合值。
 - MetricDescriptor 合约校验、可移植 ProcessCollector 样本、PushGateway URL/载荷构造器。
-- Crescent 集成边界说明、25 个核心测试、生成的 `.mbti` API 摘要、确定性 benchmark 与可运行 CLI。
+- Crescent 原生 middleware、`/metrics` handler、28 个测试、生成的 `.mbti` API 摘要、确定性 benchmark 与可运行 CLI。
 ## 原创与参考
-项目为原创 MoonBit 实现，未复制第三方源码；API 语义参考 Prometheus/OpenMetrics 公开规范。唯一额外依赖为 Apache-2.0 的 `bobzhang/crescent@0.10.0`，仅用于集成边界说明。
+项目为原创 MoonBit 实现，未复制第三方源码；API 语义参考 Prometheus/OpenMetrics 公开规范。Crescent 集成使用 Apache-2.0 的 `bobzhang/crescent@0.11.0`，仅在 native 子包中启用。
 ## 仓库与许可证
 GitLink：<https://gitlink.org.cn/mohongquan0630/moon-prometheus>；默认分支：`main`；模块名：`mohongquan0630/moon-prometheus`；许可证：Apache-2.0。
 ## 工程与验收
